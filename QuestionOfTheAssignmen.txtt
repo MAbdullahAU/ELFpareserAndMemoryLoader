@@ -1,0 +1,15 @@
+Important Note: Please upload your source files and built images as folders with following nomenclature. Otherwise grading can not assured.
+
+     Studentname_ELF
+We have already discussed the required functionality in the class at good length. Below is the functionality to develop own binary parser, preferably with use of elf.h
+1) Read ELF header and display on standard output (terminal)
+
+2) Parse Program header table and display information on standard output
+
+3) Dump the contents of Program segments with type PT_LOAD
+
+4) Parse section header table if present in binary
+
+Note: Just copying the code from internet will substantially reduce your score and you will not be able to answer the questions correctly/confidently in the exams
+
+Cheers !!!
