@@ -1,0 +1,48 @@
+zero = (char*)mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0)
+
+$ gcc -m32 -g -Wall -ldl -o loader loader.c
+$ gcc -m32 -pie -fPIE -o elf elf.c
+$ ./loader elf
+Hello world! fprintf=0xf7612420, stdout=0xf770e4c0
+
+PROT_EXEC
+
+#include <sys/types.h>
+#include <sys/mman.h>
+#include <err.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+map = mmap(0, FILESIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (map == MAP_FAILED) {
+	close(fd);
+	perror("Error mmapping the file");
+	exit(EXIT_FAILURE);
+    }
+    
+    /* Now write int's to the file as if it were memory (an array of ints).
+     */
+    for (i = 1; i <=NUMINTS; ++i) {
+	map[i] = 2 * i; 
+    }
+
+fd = open(FILEPATH, O_RDWR | O_CREAT | O_TRUNC, (mode_t)0600);
+    if (fd == -1) {
+	perror("Error opening file for writing");
+	exit(EXIT_FAILURE);
+    }
+
+
+
+if (munmap(map, FILESIZE) == -1) {
+	perror("Error un-mmapping the file");
+	/* Decide here whether to close(fd) and exit() or not. Depends... */
+    }
+
+    /* Un-mmaping doesn't close the file, so we still need to do that.
+     */
+    close(fd);
+    return 0;
